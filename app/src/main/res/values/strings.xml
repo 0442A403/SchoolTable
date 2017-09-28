@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">School Table</string>
+
+    <string name="Monday">Понедельник</string>
+    <string name="Tuesday">Вторник</string>
+    <string name="Wednesday">Среда</string>
+    <string name="Thursday">Четверг</string>
+    <string name="Friday">Пятница</string>
+    <string name="Saturday">Суббота</string>
+
+    <string name="zero" >0. </string>
+    <string name="one"  >1. </string>
+    <string name="two"  >2. </string>
+    <string name="three">3. </string>
+    <string name="four" >4. </string>
+    <string name="five" >5. </string>
+    <string name="six"  >6. </string>
+    <string name="seven">7. </string>
+
+    <string name="zeroLessonTime"   >8:00 – 8:45</string>
+    <string name="firstLessonTime"  >8:50 – 9:35</string>
+    <string name="secondLessonTime" >9:40 – 10:25</string>
+    <string name="thirdLessonTime"  >10:40 – 11:25</string>
+    <string name="fourthLessonTime" >11:40 – 12:25</string>
+    <string name="fifthLessonTime"  >12:40 – 13:25</string>
+    <string name="sixthLessonTime"  >13:40 – 14:25</string>
+    <string name="seventhLessonTime">14:30 – 15:15</string>
+
+    <string name="biology">Биология</string>
+    <string name="englishLanguage">Английский язык</string>
+    <string name="IT">Информатика</string>
+    <string name="history">История</string>
+    <string name="algebra">Алгебра</string>
+
+    <string name="classroom3">3</string>
+    <string name="classroom23slash33">23/33</string>
+    <string name="classroom5slash26">5/26</string>
+    <string name="classroom28">28</string>
+    <string name="classroom19">19</string>
+    <string name="russianLanguage">Русский язык</string>
+    <string name="classroom18">18</string>
+    <string name="literature">Литература</string>
+    <string name="physics">Физика</string>
+    <string name="classroom32">32</string>
+    <string name="chemistry">Химия</string>
+    <string name="classroom37">37</string>
+    <string name="geography">География</string>
+    <string name="classroom31">31</string>
+    <string name="physicalCulture">Физическая культура</string>
+    <string name="math_additional">Математика доп.</string>
+    <string name="classroom36">36</string>
+    <string name="basisOfSafeLiving">ОБЖ</string>
+    <string name="classroom2">2</string>
+    <string name="classroom30">30</string>
+    <string name="training">трен.</string>
+    <string name="degtyarev">Дегтярев</string>
+    <string name="classroom21">21</string>
+    <string name="zeroLessonTime_Saturday">8:00 - 8:40</string>
+    <string name="socialStudies">Обществознание</string>
+    <string name="firstLessonTime_Saturday">8:50 - 9:30</string>
+    <string name="secondLessonTime_Satuday">9:35 - 10:15</string>
+    <string name="thirdLessonTime_Saturday">10:25 - 11:05</string>
+    <string name="fourthLessonTime_Saturday">11:15 - 11:55</string>
+
+</resources>
