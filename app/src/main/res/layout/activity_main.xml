@@ -16,74 +16,53 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include
-            android:id="@+id/monday"
-            layout="@layout/monday" />
-
-        <View
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/underlineColor"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <include
+                android:id="@+id/Monday"
+                layout="@layout/day" />
+
+        </FrameLayout>
+
+        <include layout="@layout/line" />
 
         <include
-            android:id="@+id/tuesday"
-            layout="@layout/tuesday" />
+            android:id="@+id/Tuesday"
+            layout="@layout/day" />
 
-        <View
+        <include layout="@layout/line" />
+
+        <include
+            android:id="@+id/Wednesday"
+            layout="@layout/day" />
+
+        <include layout="@layout/line" />
+
+        <include
+            android:id="@+id/Thursday"
+            layout="@layout/day" />
+
+        <include layout="@layout/line" />
+
+        <include
+            android:id="@+id/Friday"
+            layout="@layout/day" />
+
+        <include layout="@layout/line" />
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/underlineColor"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
 
-        <include
-            android:id="@+id/wednesday"
-            layout="@layout/wednesday" />
+            <include
+                android:id="@+id/Saturday"
+                layout="@layout/day" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/underlineColor"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="8dp"/>
-
-        <include
-            android:id="@+id/thursday"
-            layout="@layout/thursday" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/underlineColor"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="8dp"/>
-
-        <include
-            android:id="@+id/friday"
-            layout="@layout/friday" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/underlineColor"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="8dp"/>
-
-        <include
-            android:id="@+id/saturday"
-            layout="@layout/saturday" />
+        </FrameLayout>
 
     </LinearLayout>
 

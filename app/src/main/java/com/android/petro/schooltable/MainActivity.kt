@@ -1,338 +1,82 @@
 package com.android.petro.schooltable
 
-import android.support.v7.app.AppCompatActivity
+import android.content.Context
+import android.database.Cursor
+import android.database.sqlite.SQLiteOpenHelper
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.view.animation.LinearOutSlowInInterpolator
-import android.util.Log
+import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.transitionseverywhere.*
-import kotlinx.android.synthetic.main.activity_main.*
-import com.transitionseverywhere.extra.Scale
-import kotlinx.android.synthetic.main.monday.*
-import android.view.animation.RotateAnimation
-import android.view.animation.DecelerateInterpolator
+import android.view.ViewGroup
 import android.view.animation.AnimationSet
-import kotlinx.android.synthetic.main.friday.*
-import kotlinx.android.synthetic.main.saturday.*
-import kotlinx.android.synthetic.main.thursday.*
-import kotlinx.android.synthetic.main.tuesday.*
-import kotlinx.android.synthetic.main.wednesday.*
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.RotateAnimation
+import com.transitionseverywhere.Fade
+import com.transitionseverywhere.TransitionManager
+import com.transitionseverywhere.TransitionSet
+import com.transitionseverywhere.extra.Scale
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.day.view.*
+import kotlinx.android.synthetic.main.lesson.view.*
+import kotlinx.android.synthetic.main.lesson__edit_text.view.*
+import java.util.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnDaySelectedListener {
 
-    private val days = arrayOf(Day.MONDAY, Day.TUESDAY, Day.WEDNESDAY, Day.THURSDAY, Day.FRIDAY, Day.SATURDAY)
+    private val days: ArrayList<Day> = ArrayList()
+    private val tableName = "Lessons"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        monday.setOnClickListener {
-            Log.d("SchoolTableInformation", (mondayLessons.visibility == View.GONE).toString())
-            swapDay(Day.MONDAY, mondayLessons.visibility == View.GONE)
-        }
-        tuesday.setOnClickListener {
-            swapDay(Day.TUESDAY, tuesdayLessons.visibility == View.GONE)
-        }
-        wednesday.setOnClickListener {
-            swapDay(Day.WEDNESDAY, wednesdayLessons.visibility == View.GONE)
-        }
-        thursday.setOnClickListener {
-            swapDay(Day.THURSDAY, thursdayLessons.visibility == View.GONE)
-        }
-        friday.setOnClickListener {
-            Log.d("SchoolTableDebug", "OnClickListener")
-            swapDay(Day.FRIDAY, fridayLessons.visibility == View.GONE)
-        }
-        friday.setOnLongClickListener {
-            Log.d("SchoolTableDebug", "OnLongClickListener")
-            true
-        }
-        saturday.setOnClickListener {
-            swapDay(Day.SATURDAY, saturdayLessons.visibility == View.GONE)
+        if (getSharedPreferences("First open", Context.MODE_PRIVATE).getBoolean("First open", true)) {
+            Snackbar.make(scrollContainer, "Удерживайте, чтобы изменить", Snackbar.LENGTH_LONG).show()
+            getSharedPreferences("First open", Context.MODE_PRIVATE).edit().putBoolean("First open", false).apply()
         }
 
-    }
-
-    private fun swapDay(day: Day, checked: Boolean) {
-        for (curDay in days)
-            if (curDay == day)
-                changeDay(curDay, checked)
-            else
-                changeDay(curDay, false)
-    }
-
-    private fun changeDay(day: Day, checked: Boolean) {
-        when(day) {
-            Day.MONDAY    ->
-                    changeMondayVisible(checked)
-            Day.TUESDAY   ->
-                    changeTuesdayVisible(checked)
-            Day.WEDNESDAY ->
-                    changeWednesdayVisible(checked)
-            Day.THURSDAY  ->
-                    changeThursdayVisible(checked)
-            Day.FRIDAY    ->
-                    changeFridayVisible(checked)
-            Day.SATURDAY  ->
-                    changeSaturdayVisible(checked)
+        val lessonsDatabase = Lessons(this, tableName)
+        val query = "SELECT * FROM $tableName"
+        val cursor = lessonsDatabase.readableDatabase.rawQuery(query, null)
+        if (cursor.moveToFirst()) {
+            do {
+                val name = cursor.getString(cursor.getColumnIndex("day"))
+                val id = resources.getIdentifier(name, "id", packageName)
+                val layout = findViewById(id) as ViewGroup
+                days.add(Day(
+                        DayType.getDayByName(name),
+                        layout,
+                        scrollContainer,
+                        cursor,
+                        this,
+                        this,
+                        tableName,
+                        lessonsDatabase)
+                )
+            } while (cursor.moveToNext())
         }
+        else {
+            throw Exception()
+        }
+        cursor.close()
+
+        val calendar = Calendar.getInstance()
+        val day = calendar.get(Calendar.DAY_OF_WEEK)
+        val calendarDays = arrayOf(
+                Calendar.MONDAY,
+                Calendar.TUESDAY,
+                Calendar.WEDNESDAY,
+                Calendar.THURSDAY,
+                Calendar.FRIDAY,
+                Calendar.SATURDAY
+        )
+        days[calendarDays.indexOf(day)].show()
     }
 
-    private fun changeSaturdayVisible(checked: Boolean) {
-        if ((saturdayLessons.visibility == View.VISIBLE && checked)
-                || (saturdayLessons.visibility == View.GONE && !checked))
-            return
-
-        val set = TransitionSet()
-                .addTransition(Scale(0.7f))
-                .addTransition(Fade())
-                .setDuration(200L)
-                .setInterpolator(LinearOutSlowInInterpolator())
-
-        TransitionManager.beginDelayedTransition(scrollContainer, set)
-        saturdayLessons.visibility =
-                if (checked)
-                    View.VISIBLE
-                else
-                    View.GONE
-
-        val myImageView = arrow_Saturday
-
-        val animSet = AnimationSet(true)
-        animSet.interpolator = DecelerateInterpolator()
-        animSet.fillAfter = true
-        animSet.isFillEnabled = true
-
-        val animRotate =
-                if (checked)
-                    RotateAnimation(0.0f, -180.0f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f)
-                else
-                    RotateAnimation(-180.0f, 0.0f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f)
-
-        animRotate.duration = 200
-        animRotate.fillAfter = true
-        animSet.addAnimation(animRotate)
-
-        myImageView.startAnimation(animSet)
-    }
-
-    private fun changeFridayVisible(checked: Boolean) {
-        if ((fridayLessons.visibility == View.VISIBLE && checked)
-                || (fridayLessons.visibility == View.GONE && !checked))
-            return
-
-        val set = TransitionSet()
-                .addTransition(Scale(0.7f))
-                .addTransition(Fade())
-                .setDuration(200L)
-                .setInterpolator(LinearOutSlowInInterpolator())
-
-        TransitionManager.beginDelayedTransition(scrollContainer, set)
-        fridayLessons.visibility =
-                if (checked)
-                    View.VISIBLE
-                else
-                    View.GONE
-
-        val myImageView = arrow_Friday
-
-        val animSet = AnimationSet(true)
-        animSet.interpolator = DecelerateInterpolator()
-        animSet.fillAfter = true
-        animSet.isFillEnabled = true
-
-        val animRotate =
-                if (checked)
-                    RotateAnimation(0.0f, -180.0f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f)
-                else
-                    RotateAnimation(-180.0f, 0.0f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f)
-
-        animRotate.duration = 200
-        animRotate.fillAfter = true
-        animSet.addAnimation(animRotate)
-
-        myImageView.startAnimation(animSet)
-    }
-
-    private fun changeThursdayVisible(checked: Boolean) {
-        if ((thursdayLessons.visibility == View.VISIBLE && checked)
-                || (thursdayLessons.visibility == View.GONE && !checked))
-            return
-
-        val set = TransitionSet()
-                .addTransition(Scale(0.7f))
-                .addTransition(Fade())
-                .setDuration(200L)
-                .setInterpolator(LinearOutSlowInInterpolator())
-
-        TransitionManager.beginDelayedTransition(scrollContainer, set)
-        thursdayLessons.visibility =
-                if (checked)
-                    View.VISIBLE
-                else
-                    View.GONE
-
-        val myImageView = arrow_Thursday
-
-        val animSet = AnimationSet(true)
-        animSet.interpolator = DecelerateInterpolator()
-        animSet.fillAfter = true
-        animSet.isFillEnabled = true
-
-        val animRotate =
-                if (checked)
-                    RotateAnimation(0.0f, -180.0f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f)
-                else
-                    RotateAnimation(-180.0f, 0.0f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f)
-
-        animRotate.duration = 200
-        animRotate.fillAfter = true
-        animSet.addAnimation(animRotate)
-
-        myImageView.startAnimation(animSet)
-    }
-
-    private fun changeWednesdayVisible(checked: Boolean) {
-        if ((wednesdayLessons.visibility == View.VISIBLE && checked)
-                || (wednesdayLessons.visibility == View.GONE && !checked))
-            return
-
-        val set = TransitionSet()
-                .addTransition(Scale(0.7f))
-                .addTransition(Fade())
-                .setDuration(200L)
-                .setInterpolator(LinearOutSlowInInterpolator())
-
-        TransitionManager.beginDelayedTransition(scrollContainer, set)
-        wednesdayLessons.visibility =
-                if (checked)
-                    View.VISIBLE
-                else
-                    View.GONE
-
-        val myImageView = arrow_Wednesday
-
-        val animSet = AnimationSet(true)
-        animSet.interpolator = DecelerateInterpolator()
-        animSet.fillAfter = true
-        animSet.isFillEnabled = true
-
-        val animRotate =
-                if (checked)
-                    RotateAnimation(0.0f, -180.0f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f)
-                else
-                    RotateAnimation(-180.0f, 0.0f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f)
-
-        animRotate.duration = 200
-        animRotate.fillAfter = true
-        animSet.addAnimation(animRotate)
-
-        myImageView.startAnimation(animSet)
-    }
-
-
-    private fun changeMondayVisible(checked: Boolean) {
-        if ((mondayLessons.visibility == View.VISIBLE && checked)
-                || (mondayLessons.visibility == View.GONE && !checked))
-            return
-
-        val set = TransitionSet()
-                .addTransition(Scale(0.7f))
-                .addTransition(Fade())
-                .setDuration(200L)
-                .setInterpolator(LinearOutSlowInInterpolator())
-
-        TransitionManager.beginDelayedTransition(scrollContainer, set)
-        mondayLessons.visibility =
-                if (checked)
-                    View.VISIBLE
-                else
-                    View.GONE
-
-        val myImageView = arrow_Monday
-
-        val animSet = AnimationSet(true)
-        animSet.interpolator = DecelerateInterpolator()
-        animSet.fillAfter = true
-        animSet.isFillEnabled = true
-
-        val animRotate =
-                if (checked)
-                    RotateAnimation(0.0f, -180.0f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f)
-                else
-                    RotateAnimation(-180.0f, 0.0f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f)
-
-        animRotate.duration = 200
-        animRotate.fillAfter = true
-        animSet.addAnimation(animRotate)
-
-        myImageView.startAnimation(animSet)
-    }
-
-    private fun changeTuesdayVisible(checked: Boolean) {
-        if ((tuesdayLessons.visibility == View.VISIBLE && checked)
-                || (tuesdayLessons.visibility == View.GONE && !checked))
-            return
-
-        val set = TransitionSet()
-                .addTransition(Scale(0.7f))
-                .addTransition(Fade())
-                .setDuration(200L)
-                .setInterpolator(LinearOutSlowInInterpolator())
-
-        TransitionManager.beginDelayedTransition(scrollContainer, set)
-        tuesdayLessons.visibility =
-                if (checked)
-                    View.VISIBLE
-                else
-                    View.GONE
-
-        val myImageView = arrow_Tuesday
-
-        val animSet = AnimationSet(true)
-        animSet.interpolator = DecelerateInterpolator()
-        animSet.fillAfter = true
-        animSet.isFillEnabled = true
-
-        val animRotate =
-                if (checked)
-                    RotateAnimation(0.0f, -180.0f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f)
-                else
-                    RotateAnimation(-180.0f, 0.0f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                            RotateAnimation.RELATIVE_TO_SELF, 0.5f)
-
-        animRotate.duration = 200
-        animRotate.fillAfter = true
-        animSet.addAnimation(animRotate)
-
-        myImageView.startAnimation(animSet)
-    }
-
-    enum class Day {
-        MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
+    override fun onDaySelected() {
+        for (day in days)
+            day.hide()
     }
 }

@@ -3,6 +3,6 @@
     <dimen name="daysTitleSize">30sp</dimen>
     <dimen name="lessonsPaddingLeft">8dp</dimen>
     <dimen name="lessonsSize">23sp</dimen>
-    <dimen name="timeLeftMargin">4dp</dimen>
+    <dimen name="timeLeftMargin">6dp</dimen>
     <dimen name="lessonTimeSize">18sp</dimen>
 </resources>

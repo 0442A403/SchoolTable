@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/dayTitle_Container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/dayTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lessonColor"
+            android:textSize="@dimen/daysTitleSize"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_down"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="6dp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/lessons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/lessonsPaddingLeft"
+        android:paddingRight="8dp"
+        android:visibility="gone">
+
+        <include android:id="@+id/lesson0"
+            layout="@layout/lesson" />
+        <include android:id="@+id/lesson1"
+            layout="@layout/lesson" />
+        <include android:id="@+id/lesson2"
+            layout="@layout/lesson" />
+        <include android:id="@+id/lesson3"
+            layout="@layout/lesson" />
+        <include android:id="@+id/lesson4"
+            layout="@layout/lesson" />
+        <include android:id="@+id/lesson5"
+            layout="@layout/lesson" />
+        <include android:id="@+id/lesson6"
+            layout="@layout/lesson" />
+        <include android:id="@+id/lesson7"
+            layout="@layout/lesson" />
+        <include android:id="@+id/lesson8"
+            layout="@layout/lesson" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lessons_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/lessonsPaddingLeft"
+        android:visibility="gone">
+
+        <include android:id="@+id/lesson0__edit_text"
+            layout="@layout/lesson__edit_text" />
+        <include android:id="@+id/lesson1__edit_text"
+            layout="@layout/lesson__edit_text" />
+        <include android:id="@+id/lesson2__edit_text"
+            layout="@layout/lesson__edit_text" />
+        <include android:id="@+id/lesson3__edit_text"
+            layout="@layout/lesson__edit_text" />
+        <include android:id="@+id/lesson4__edit_text"
+            layout="@layout/lesson__edit_text" />
+        <include android:id="@+id/lesson5__edit_text"
+            layout="@layout/lesson__edit_text" />
+        <include android:id="@+id/lesson6__edit_text"
+            layout="@layout/lesson__edit_text" />
+        <include android:id="@+id/lesson7__edit_text"
+            layout="@layout/lesson__edit_text" />
+        <include android:id="@+id/lesson8__edit_text"
+            layout="@layout/lesson__edit_text" />
+
+    </LinearLayout>
+
+</LinearLayout>

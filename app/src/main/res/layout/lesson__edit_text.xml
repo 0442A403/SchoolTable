@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    android:id="@+id/lessonsContainer_EditText"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/lessonsTitleContainer_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/lessonIndex_EditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/lessonsSize"
+            android:textColor="@color/lessonsColor"
+            android:textStyle="bold"
+            android:maxLines="1"/>
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/lesson_EditText"
+            app:layout_widthPercent="65%"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/lessonIndex_EditText"
+            android:textSize="@dimen/lessonsSize"
+            android:textColor="@color/lessonsColor"
+            android:textStyle="bold"
+            android:inputType="textCapSentences"
+            android:paddingLeft="0dp"
+            android:paddingTop="0dp"
+            android:paddingRight="0dp"
+            android:paddingBottom="0dp"
+            android:background="@null"
+            android:maxLines="1"/>
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/lessonsClassroom_EditText"
+            app:layout_widthPercent="20%"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textSize="@dimen/lessonsSize"
+            android:textColor="@color/classroomColor"
+            android:textStyle="bold"
+            android:inputType="textCapSentences"
+            android:paddingLeft="0dp"
+            android:paddingTop="0dp"
+            android:paddingRight="0dp"
+            android:paddingBottom="0dp"
+            android:background="@null"
+            android:gravity="right"
+            android:maxLines="1"/>
+
+    </android.support.percent.PercentRelativeLayout>
+
+
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/lessonsTime_EditText"
+        app:layout_widthPercent="35%"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lessonsTitleContainer_EditText"
+        android:layout_marginLeft="@dimen/timeLeftMargin"
+        android:textColor="@color/lessonTimeColor"
+        android:textSize="@dimen/lessonTimeSize"
+        android:inputType="textCapSentences"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:background="@null"
+        android:maxLines="1"/>
+
+</android.support.percent.PercentRelativeLayout>
