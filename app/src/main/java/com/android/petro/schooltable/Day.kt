@@ -5,6 +5,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteOpenHelper
 import android.support.design.widget.Snackbar
 import android.support.v4.view.animation.LinearOutSlowInInterpolator
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationSet
@@ -23,13 +24,13 @@ import kotlinx.android.synthetic.main.lesson__edit_text.view.*
  * Class provides day's functional
  */
 class Day(private val day: DayType,
-                  private val layout: ViewGroup,
-                  private val globalLayout: ViewGroup,
-                  cursor: Cursor,
-                  val context: Context,
-                  private val callback: OnDaySelectedListener,
-                  private val tableName: String,
-                  private val database: SQLiteOpenHelper) {
+          private val layout: ViewGroup,
+          private val globalLayout: ViewGroup,
+          cursor: Cursor,
+          private val context: Context,
+          private val callback: OnDaySelectedListener,
+          private val tableName: String,
+          private val database: SQLiteOpenHelper) {
     private var visible = false
     private var editing = false
     init {
@@ -172,7 +173,8 @@ class Day(private val day: DayType,
             query.append("Lesson${i}classroom = '${lessonLayoutEditText.lessonsClassroom_EditText.text}', ")
         }
         query.delete(query.length - 2, query.length - 1)
-        query.append("WHERE day = '${day.name}';")
+        query.append("WHERE day = '${day.name.substring(0, 1)}${day.name.substring(1).toLowerCase()}';")
+        Log.d("SchoolTable", query.toString())
         database.writableDatabase.execSQL(query.toString())
 
         matchTextViews()

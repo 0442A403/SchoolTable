@@ -3,6 +3,7 @@ package com.android.petro.schooltable
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 
 /**
  * Main database
@@ -72,36 +73,6 @@ class Lessons(context: Context,
                 "'');"
         db?.execSQL(query)
         query = "INSERT INTO $name VALUES(" +
-                "'Wednesday'," +
-                "'Физическая культура'," +
-                "'Физическая культура'," +
-                "'Английский язык'," +
-                "'Русский язык'," +
-                "'Литература'," +
-                "''," +
-                "''," +
-                "''," +
-                "''," +
-                "'8:00 - 8:40'," +
-                "'8:50 - 9:35'," +
-                "'9:40 - 10:25'," +
-                "'10:40 - 11:25'," +
-                "'11:40 - 12:25'," +
-                "'12:40 - 13:25'," +
-                "'13:40 - 14:25'," +
-                "'14:30 - 15:15'," +
-                "'15:20 - 16:05'," +
-                "'36'," +
-                "'36'," +
-                "'5/26'," +
-                "'32'," +
-                "'32'," +
-                "''," +
-                "''," +
-                "''," +
-                "'');"
-        db?.execSQL(query)
-        query = "INSERT INTO $name VALUES(" +
                 "'Tuesday'," +
                 "''," +
                 "'Русский язык'," +
@@ -129,6 +100,36 @@ class Lessons(context: Context,
                 "'19'," +
                 "'37'," +
                 "'31'," +
+                "'');"
+        db?.execSQL(query)
+        query = "INSERT INTO $name VALUES(" +
+                "'Wednesday'," +
+                "'Физическая культура'," +
+                "'Физическая культура'," +
+                "'Английский язык'," +
+                "'Русский язык'," +
+                "'Литература'," +
+                "''," +
+                "''," +
+                "''," +
+                "''," +
+                "'8:00 - 8:40'," +
+                "'8:50 - 9:35'," +
+                "'9:40 - 10:25'," +
+                "'10:40 - 11:25'," +
+                "'11:40 - 12:25'," +
+                "'12:40 - 13:25'," +
+                "'13:40 - 14:25'," +
+                "'14:30 - 15:15'," +
+                "'15:20 - 16:05'," +
+                "'36'," +
+                "'36'," +
+                "'5/26'," +
+                "'32'," +
+                "'32'," +
+                "''," +
+                "''," +
+                "''," +
                 "'');"
         db?.execSQL(query)
         query = "INSERT INTO $name VALUES(" +
@@ -221,6 +222,7 @@ class Lessons(context: Context,
                 "''," +
                 "'');"
         db?.execSQL(query)
+        Log.d("SchoolTableDebug", "1111")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
