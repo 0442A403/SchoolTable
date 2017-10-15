@@ -72,7 +72,8 @@ class MainActivity : AppCompatActivity(), OnDaySelectedListener {
                 Calendar.FRIDAY,
                 Calendar.SATURDAY
         )
-        days[calendarDays.indexOf(day)].show()
+        if (calendarDays.contains(day))
+            days[calendarDays.indexOf(day)].show()
     }
 
     override fun onDaySelected() {
