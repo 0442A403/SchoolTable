@@ -65,6 +65,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="@dimen/lessonsPaddingLeft"
+        android:paddingRight="8dp"
         android:visibility="gone">
 
         <include android:id="@+id/lesson0__edit_text"

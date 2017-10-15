@@ -1,5 +1,6 @@
 package com.android.petro.schooltable
 
+import android.app.TimePickerDialog
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteOpenHelper
@@ -18,6 +19,8 @@ import com.transitionseverywhere.extra.Scale
 import kotlinx.android.synthetic.main.day.view.*
 import kotlinx.android.synthetic.main.lesson.view.*
 import kotlinx.android.synthetic.main.lesson__edit_text.view.*
+import org.jetbrains.anko.timePicker
+import org.jetbrains.anko.verticalLayout
 
 /**
  * Created by petro on 02.10.2017.
@@ -33,6 +36,7 @@ class Day(private val day: DayType,
           private val database: SQLiteOpenHelper) {
     private var visible = false
     private var editing = false
+    private var endTime: Int? = null
     init {
         layout.dayTitle.text = day.dayName
         for (i in 0..8) {
@@ -40,15 +44,47 @@ class Day(private val day: DayType,
             val lessonLayout = layout.findViewById(id) as ViewGroup
             lessonLayout.lessonIndex.text = "$i. "
             val lessonName = cursor.getString(cursor.getColumnIndex("Lesson$i"))
-            val lessonTime = cursor.getString(cursor.getColumnIndex("Lesson${i}time"))
+            if (!lessonName.isEmpty()) {
+                val timeArray = cursor.getString(cursor.getColumnIndex("Lesson${i}EndTime")).split(':')
+                val time = timeArray[0].toInt() * 60 + timeArray[1].toInt()
+                if (endTime == null || endTime!! < time)
+                    endTime = time
+            }
+            val startLessonTime = cursor.getString(cursor.getColumnIndex("Lesson${i}StartTime"))
+            val endLessonTime = cursor.getString(cursor.getColumnIndex("Lesson${i}EndTime"))
             val lessonClassroom = cursor.getString(cursor.getColumnIndex("Lesson${i}classroom"))
             val editTextId = context.resources.getIdentifier("lesson${i}__edit_text", "id", context.packageName)
             val lessonLayoutEditText = layout.findViewById(editTextId) as ViewGroup
             lessonLayoutEditText.lessonIndex_EditText.text = "$i. "
             lessonLayoutEditText.lesson_EditText.setText(lessonName)
-            lessonLayoutEditText.lessonsTime_EditText.setText(lessonTime)
+            lessonLayoutEditText.lessonStartTime_EditText.text = startLessonTime
+            lessonLayoutEditText.lessonEndTime_EditText.text = endLessonTime
             lessonLayoutEditText.lessonsClassroom_EditText.setText(lessonClassroom)
             matchTextViews()
+            lessonLayoutEditText.lessonStartTime_EditText.setOnClickListener {
+                Log.d("SchoolTableDebug", "in lessonsTime's onClickListener1")
+                with(context) {
+                    Log.d("SchoolTableDebug", "in lessonsTime's onClickListener2")
+                    val timeDialog = TimePickerDialog(
+                            context,
+                            { _, hours: Int, minutes: Int ->
+                                lessonLayoutEditText.lessonStartTime_EditText.text = "$hours:$minutes"
+                            }, 24, 60, true)
+                    timeDialog.show()
+                }
+            }
+            lessonLayoutEditText.lessonEndTime_EditText.setOnClickListener {
+                Log.d("SchoolTableDebug", "in lessonsTime's onClickListener1")
+                with(context) {
+                    Log.d("SchoolTableDebug", "in lessonsTime's onClickListener2")
+                    val timeDialog = TimePickerDialog(
+                            context,
+                            { _, hours: Int, minutes: Int ->
+                                lessonLayoutEditText.lessonEndTime_EditText.text = "$hours:$minutes"
+                            }, 24, 60, true)
+                    timeDialog.show()
+                }
+            }
         }
         layout.dayTitle_Container.setOnClickListener {
             swapVisible()
@@ -70,6 +106,7 @@ class Day(private val day: DayType,
                 swapVisible()
             return@setOnLongClickListener true
         }
+
     }
 
     private fun matchTextViews() {
@@ -83,7 +120,8 @@ class Day(private val day: DayType,
             else
                 lessonLayout.visibility = View.VISIBLE
             lessonLayout.lesson.text = lessonLayoutEditText.lesson_EditText.text
-            lessonLayout.lessonsTime.text = lessonLayoutEditText.lessonsTime_EditText.text
+            lessonLayout.lessonStartTime.text = lessonLayoutEditText.lessonStartTime_EditText.text
+            lessonLayout.lessonEndTime.text = lessonLayoutEditText.lessonEndTime_EditText.text
             lessonLayout.lessonsClassroom.text = lessonLayoutEditText.lessonsClassroom_EditText.text
         }
     }
@@ -169,7 +207,8 @@ class Day(private val day: DayType,
             val editTextId = context.resources.getIdentifier("lesson${i}__edit_text", "id", context.packageName)
             val lessonLayoutEditText = layout.findViewById(editTextId) as ViewGroup
             query.append("Lesson$i = '${lessonLayoutEditText.lesson_EditText.text}', ")
-            query.append("Lesson${i}time = '${lessonLayoutEditText.lessonsTime_EditText.text}', ")
+            query.append("Lesson${i}StartTime = '${lessonLayoutEditText.lessonStartTime_EditText.text}', ")
+            query.append("Lesson${i}EndTime = '${lessonLayoutEditText.lessonEndTime_EditText.text}',")
             query.append("Lesson${i}classroom = '${lessonLayoutEditText.lessonsClassroom_EditText.text}', ")
         }
         query.delete(query.length - 2, query.length - 1)
@@ -205,4 +244,6 @@ class Day(private val day: DayType,
         animSet.addAnimation(animRotate)
         arrow.startAnimation(animSet)
     }
+
+    fun isSchoolTime(time: Int): Boolean = !(endTime != null && endTime!! <= time)
 }

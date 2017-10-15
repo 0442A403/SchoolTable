@@ -43,16 +43,40 @@
         android:textStyle="bold"
         android:ellipsize="end"
         android:maxLines="1"/>
-    <TextView
-        android:id="@+id/lessonsTime"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/lessonsTitleContainer"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="@dimen/timeLeftMargin"
-        android:textColor="@color/lessonTimeColor"
-        android:textSize="@dimen/lessonTimeSize"
-        android:ellipsize="end"
-        android:maxLines="1"/>
+        android:layout_marginLeft="@dimen/timeLeftMargin">
+
+        <TextView
+            android:id="@+id/lessonStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lessonTimeColor"
+            android:textSize="@dimen/lessonTimeSize"
+            android:maxLines="1"
+            android:layout_marginRight="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lessonTimeColor"
+            android:textSize="@dimen/lessonTimeSize"
+            android:maxLines="1"
+            android:text="@string/dash"/>
+
+        <TextView
+            android:id="@+id/lessonEndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lessonTimeColor"
+            android:textSize="@dimen/lessonTimeSize"
+            android:maxLines="1"
+            android:layout_marginLeft="4dp"/>
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

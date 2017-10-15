@@ -61,5 +61,6 @@
     <string name="secondLessonTime_Satuday">9:35 - 10:15</string>
     <string name="thirdLessonTime_Saturday">10:25 - 11:05</string>
     <string name="fourthLessonTime_Saturday">11:15 - 11:55</string>
+    <string name="dash">-</string>
 
 </resources>

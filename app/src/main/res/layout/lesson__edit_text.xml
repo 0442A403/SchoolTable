@@ -59,21 +59,43 @@
     </android.support.percent.PercentRelativeLayout>
 
 
-
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/lessonsTime_EditText"
-        app:layout_widthPercent="35%"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_below="@id/lessonsTitleContainer_EditText"
         android:layout_marginLeft="@dimen/timeLeftMargin"
-        android:textColor="@color/lessonTimeColor"
-        android:textSize="@dimen/lessonTimeSize"
-        android:inputType="textCapSentences"
         android:paddingLeft="0dp"
         android:paddingTop="0dp"
         android:paddingRight="0dp"
-        android:paddingBottom="0dp"
-        android:background="@null"
-        android:maxLines="1"/>
+        android:paddingBottom="0dp">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/lessonStartTime_EditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lessonTimeColor"
+            android:textSize="@dimen/lessonTimeSize"
+            android:maxLines="1"
+            android:layout_marginRight="4dp"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lessonTimeColor"
+            android:textSize="@dimen/lessonTimeSize"
+            android:maxLines="1"
+            android:text="@string/dash"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/lessonEndTime_EditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lessonTimeColor"
+            android:textSize="@dimen/lessonTimeSize"
+            android:maxLines="1"
+            android:layout_marginLeft="4dp"/>
+
+    </LinearLayout>
 
 </android.support.percent.PercentRelativeLayout>
